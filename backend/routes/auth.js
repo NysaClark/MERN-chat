@@ -32,12 +32,12 @@ router.route("/login").post(async (req, res, next) => {
 
   await userSchema.findOne({ username: username }).then((user) => {
     if (!user) {
-      return res.status(401).json({ message: "Unauthorized" });
+      return res.status(401).json({ message: "Incorrect username or password" });
     }
 
     // password doesn't match
     if (password !== user.password) {
-      return res.status(401).json({ message: "Unauthorized" });
+      return res.status(401).json({ message: "Incorrect username or password" });
     }
 
     res.json({ user });

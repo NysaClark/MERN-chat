@@ -14,8 +14,9 @@ router.route("/:userId/contacts").get(async (req, res, next) => {
 
   // $ne selects the documents where the value of the specified field is not equal to the specified value.
   // so this find will return to the user a list of all the users in the DB except for themself
+  // find only returns the users' _id and username (not their email or password)
   await userSchema
-    .find({ _id: { $ne: userId } })
+    .find({ _id: { $ne: userId } }, "_id username")
     .then((users) => {
       //   console.log(users);
 
@@ -43,6 +44,30 @@ router.route("/:userId/messages").get(async (req, res, next) => {
     .then((messages) => {
       //   console.log(messages);
       res.json({ messages });
+    })
+    .catch((err) => {
+      console.log("Get Messages Error " + err.message);
+      return next(err);
+    });
+
+  //   res.send("user messages");
+});
+
+// GET user rooms
+router.route("/:userId/rooms").get(async (req, res, next) => {
+  const { userId } = req.params;
+
+  if (!userId) {
+    return res.status(400).json({ message: "Missing required information." });
+  }
+
+  // find rooms where the user is included in the room's list of users
+  // find returns the rooms' id, users, and room name
+  await roomSchema
+    .find({ chatUsers: {$in: [userId]} }, "chatId chatUsers roomName")
+    .then((rooms) => {
+      // console.log(rooms);
+      res.json({ rooms });
     })
     .catch((err) => {
       console.log("Get Messages Error " + err.message);
