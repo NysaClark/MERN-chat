@@ -34,7 +34,7 @@ const SignUp = ({ setUser }) => {
       username: userForm.username,
       email: userForm.email,
       password: userForm.password
-    }).then((res) => {
+    }, {withCredentials: true}).then((res) => {
       // console.log(res.data);
 
       if (res.data.user) {

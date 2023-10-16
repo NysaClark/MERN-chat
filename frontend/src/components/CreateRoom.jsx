@@ -1,10 +1,42 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 
-const CreateRoom = ({err, setErr}) => {
-	const [roomName, setRoomName] = useState();
+const CreateRoom = ({ user, err, setErr, selectedUsers }) => {
+	const [roomName, setRoomName] = useState("");
+
+	let navigate = useNavigate()
+
+	const handleSubmit = (event) => {
+		event.preventDefault();
+		// console.log(roomName);
+		// console.log(selectedUsers)
+
+		if (roomName == "") {
+			return setErr("You must give a room name")
+		}
+
+		if (selectedUsers.length <= 1) {
+			return setErr("You must select more than one user")
+		}
+
+		setErr();
+
+		axios.post(`http://localhost:4000/api/users/${user._id}/room`, {
+			roomName,
+			users: selectedUsers
+		}, { withCredentials: true }).then(res => {
+			if (res.data.room) {
+				navigate("/")
+			}
+		})
+
+
+		setRoomName("")
+	}
 
 	return (
-		<div className='form-wrapper'>
+		<div className='form-wrapper' id='createRoom'>
 			<div className="container">
 				<h1>Create A Room</h1>
 				{err &&
@@ -16,8 +48,8 @@ const CreateRoom = ({err, setErr}) => {
 				<form onSubmit={handleSubmit}>
 					<input
 						type="text"
-						placeholder="roomName"
-						name="username"
+						placeholder="Room Name"
+						name="roomName"
 						value={roomName}
 						onChange={(event) => setRoomName(event.target.value)}
 					/>

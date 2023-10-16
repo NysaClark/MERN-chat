@@ -12,8 +12,8 @@ const Rooms = ({user}) => {
     <>
       <Header username={user.username} />
       <div id="rooms">
-        <RoomMembers user={user} setErr={setErr} />
-        <CreateRoom err={err} setErr={setErr} />
+        <RoomMembers user={user} setErr={setErr} selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers} />
+        <CreateRoom user={user} err={err} setErr={setErr} selectedUsers={selectedUsers} />
       </div>
     </>
   )

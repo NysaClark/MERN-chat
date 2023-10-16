@@ -9,7 +9,7 @@ const ContactsList = ({ user, setOpenChat }) => {
   const [roomsList, setRoomsList] = useState([])
 
   const fetchUsers = async () => {
-    axios.get(`http://localhost:4000/api/users/${user._id}/contacts`).then((res) => {
+    axios.get(`http://localhost:4000/api/users/${user._id}/contacts`, {withCredentials: true}).then((res) => {
 
       if (res.data.users) {
         setUserList(res.data.users)
@@ -20,7 +20,7 @@ const ContactsList = ({ user, setOpenChat }) => {
   }
 
   const fetchRooms = async () => {
-    axios.get(`http://localhost:4000/api/users/${user._id}/rooms`).then((res) => {
+    axios.get(`http://localhost:4000/api/users/${user._id}/rooms`, {withCredentials: true}).then((res) => {
       if (res.data.rooms) {
         setRoomsList(res.data.rooms)
       }
@@ -60,12 +60,12 @@ const ContactsList = ({ user, setOpenChat }) => {
         }
       </button>
       <ul className="rooms">
-        {showRooms && roomsList.length && roomsList.map((room) => {
+        {showRooms && roomsList.length ? roomsList.map((room) => {
           return (
             <li onClick={() => setOpenChat(room.chatId)} key={room.chatId}><p>{room.roomName}</p><p>{room.chatUsers.length} users</p></li>
           )
-        })}
-        {showRooms && !roomsList.length && <p>You aren't in any rooms!</p>}
+        }): <p>You aren't in any rooms!</p>}
+        {/* {showRooms && !roomsList.length && } */}
       </ul>
     </div>
   )

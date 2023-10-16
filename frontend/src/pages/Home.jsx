@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import ContactsList from '../components/ContactsList'
 import OpenChat from '../components/OpenChat'
 

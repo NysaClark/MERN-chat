@@ -195,3 +195,17 @@ a{
   display: flex;
   justify-content: space-between;
 }
+
+
+/* Create Room */
+.form-wrapper#createRoom{
+  padding-top: 2rem;
+}
+
+#createRoom .container{
+  height: fit-content;
+}
+
+.contacts .selected{
+  background-color: var(--light-green);
+}

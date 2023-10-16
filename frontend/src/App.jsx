@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
+import { useCookies } from "react-cookie";
 
 import socketIO from "socket.io-client"
 // const socket = socketIO.connect("http://localhost:4000")
@@ -11,6 +12,34 @@ import SignUp from "./pages/SignUp"
 
 function App() {
   const [user, setUser] = useState()
+  const [cookies, removeCookie] = useCookies([]);
+
+  useEffect(() => {
+    const verifyCookie = async () => {
+      if (!cookies.token) {
+        console.log("no user")
+        // navigate("/login");
+
+      }else{
+        console.log(cookies.token)
+      }
+      // }
+      // const { data } = await axios.post(
+      //   "http://localhost:4000",
+      //   {},
+      //   { withCredentials: true }
+      // );
+      // const { status, user } = data;
+      // setUsername(user);
+      // return status
+      //   ? toast(`Hello ${user}`, {
+      //       position: "top-right",
+      //     })
+      //   : (removeCookie("token"), navigate("/login"));
+    };
+    verifyCookie();
+  }, [cookies, removeCookie]);
+
   return (
     <BrowserRouter>
       <div>
