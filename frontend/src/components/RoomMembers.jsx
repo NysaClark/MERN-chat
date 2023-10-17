@@ -4,7 +4,7 @@ const RoomMembers = ({ user, setErr, selectedUsers, setSelectedUsers }) => {
     const [userList, setUserList] = useState([])
 
     const fetchUsers = async () => {
-        axios.get(`http://localhost:4000/api/users/${user._id}/contacts`, {withCredentials: true}).then((res) => {
+        axios.get(`http://localhost:4000/api/users/${user.userId}/contacts`, {withCredentials: true}).then((res) => {
             if (res.data.users) {
                 setUserList(res.data.users)
             }

@@ -12,6 +12,8 @@ const PORT = 4000;
 const authRoutes = require("./routes/auth")
 const userRoutes = require("./routes/users")
 
+const authMiddleware = require('./middleware/authMiddleware');
+
 // import init socket
 // const socketIO = require("socket.io")(http, {
 //   cors: {
@@ -125,9 +127,7 @@ mongoose
   .then(() => console.log("DB connected"))
   .catch((err) => console.log("DB Connection Error" + err.message));
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
+app.post("/", authMiddleware);
 
 const server = app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);

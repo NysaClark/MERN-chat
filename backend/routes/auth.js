@@ -27,7 +27,7 @@ router.route("/register").post(async (req, res, next) => {
         expiresIn: "1d",
       });
 
-      console.log(`TOKEN ${token}`);
+      // console.log(`TOKEN ${token}`);
       // cookie
 
       res.json({
@@ -70,7 +70,7 @@ router.route("/login").post(async (req, res, next) => {
         expiresIn: "1d",
       });
 
-      console.log(token);
+      // console.log(token);
 
       //cookie
       res.cookie("token", token, {

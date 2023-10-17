@@ -4,9 +4,9 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
-const Header = ({ username }) => {
+const Header = ({ username, removeCookie }) => {
     let navigate = useNavigate();
-    const [cookies, removeCookie] = useCookies([]);
+    // const [cookies, removeCookie] = useCookies([]);
     
     const handleLogout = async () => {
         // post axios to /auth/logout

@@ -2,8 +2,8 @@
 const router = require("express").Router();
 
 // import middleware (?)
-const authMiddleware = require('../middleware/authMiddleware')
-router.use(authMiddleware)
+// const authMiddleware = require('../middleware/authMiddleware')
+// router.use(authMiddleware)
 
 // import Models
 const userSchema = require("../models/User");
@@ -12,7 +12,9 @@ const messageSchema = require("../models/Message");
 
 // GET user contacts
 router.route("/:userId/contacts").get(async (req, res, next) => {
-  const { userId } = req.user;
+  const { userId } = req.params;
+
+  console.log(req.params)
 
   // $ne selects the documents where the value of the specified field is not equal to the specified value.
   // so this find will return to the user a list of all the users in the DB except for themself
@@ -34,7 +36,7 @@ router.route("/:userId/contacts").get(async (req, res, next) => {
 
 // GET user messages
 router.route("/:userId/messages").get(async (req, res, next) => {
-  const { userId } = req.user;
+  const { userId } = req.params;
   const { chatId } = req.query;
 
   if (!userId || !chatId) {
@@ -57,7 +59,7 @@ router.route("/:userId/messages").get(async (req, res, next) => {
 
 // GET user rooms
 router.route("/:userId/rooms").get(async (req, res, next) => {
-  const { userId } = req.user;
+  const { userId } = req.params;
 
   if (!userId) {
     return res.status(400).json({ message: "Missing required information." });
@@ -81,7 +83,7 @@ router.route("/:userId/rooms").get(async (req, res, next) => {
 
 // POST send user message
 router.route("/:userId/message").post(async (req, res, next) => {
-  const { userId } = req.user;
+  const { userId } = req.params;
   const { chatId } = req.query;
   const { message } = req.body;
 
@@ -109,7 +111,7 @@ router.route("/:userId/message").post(async (req, res, next) => {
 
 // POST create room
 router.route("/:userId/room").post(async (req, res, next) => {
-  const { userId } = req.user;
+  const { userId } = req.params;
   const { roomName, users } = req.body;
   // const { chatId } = req.query;
 
@@ -128,7 +130,7 @@ router.route("/:userId/room").post(async (req, res, next) => {
       chatUsers: [...users, userId],
     })
     .then((newRoom) => {
-      console.log(newRoom);
+      // console.log(newRoom);
       res.json({ room: newRoom });
     })
     .catch((err) => {
