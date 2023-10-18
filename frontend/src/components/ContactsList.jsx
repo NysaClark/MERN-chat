@@ -9,13 +9,14 @@ const ContactsList = ({ user, setOpenChat }) => {
   const [roomsList, setRoomsList] = useState([])
 
   const fetchUsers = async () => {
+    console.log(user)
     axios.get(`http://localhost:4000/api/users/${user._id}/contacts`, {withCredentials: true}).then((res) => {
 
       if (res.data.users) {
         setUserList(res.data.users)
       }
     }).catch((err) => {
-      console.log(err.message)
+      console.log(err)
     })
   }
 

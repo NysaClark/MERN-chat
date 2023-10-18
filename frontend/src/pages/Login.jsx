@@ -24,15 +24,17 @@ const Login = ({ setUser }) => {
 
         setErr();
 
-        axios.post("http://localhost:4000/api/auth/login", userForm, {withCredentials: true}).then((res) => {
+        axios.post("http://localhost:4000/api/auth/login", userForm, { withCredentials: true }).then((res) => {
             console.log(res.data.user);
 
             if (res.data.user) {
                 setUser(res.data.user)
+            }else{
+                setErr(res.data.error)
             }
-        }).catch((err) => {
-            console.log(err.message)
-            setErr(err.response.data.message)
+        }).catch((error) => {
+            console.log(error.message)
+            setErr(error.message)
         })
     }
 

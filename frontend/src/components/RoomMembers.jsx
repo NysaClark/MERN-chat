@@ -10,6 +10,7 @@ const RoomMembers = ({ user, setErr, selectedUsers, setSelectedUsers }) => {
             }
         }).catch((err) => {
             console.log(err.message)
+            setErr(err.message)
         })
     }
 

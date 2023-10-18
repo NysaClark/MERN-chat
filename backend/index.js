@@ -5,14 +5,13 @@ const cookieParser = require("cookie-parser");
 
 require("dotenv").config();
 
-
 const app = express();
 const PORT = 4000;
 
-const authRoutes = require("./routes/auth")
-const userRoutes = require("./routes/users")
+const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/users");
 
-const authMiddleware = require('./middleware/authMiddleware');
+const authMiddleware = require("./middleware/authMiddleware");
 
 // import init socket
 // const socketIO = require("socket.io")(http, {
@@ -34,7 +33,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // ROUTES
 app.use("/api/auth", authRoutes);
-app.use("/api/users", userRoutes)
+app.use("/api/users", userRoutes);
 //users
 
 // let users = [];

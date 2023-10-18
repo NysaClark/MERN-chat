@@ -1,8 +1,8 @@
-// const userSchema = require("../models/User");
+const userSchema = require("../models/User");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
-const authMiddleware = (req, res, next) => {
+const authMiddleware = (req, res) => {
   const token = req.cookies.token;
   if (!token) {
     return res.json({ message: "Unauthorized" });
@@ -12,9 +12,13 @@ const authMiddleware = (req, res, next) => {
     if (err) {
       return res.json({ message: "Unauthorized" });
     } else {
-      return res.json({
-        user: { username: decoded.username, userId: decoded.userId },
-      });
+      // console.log(decoded)
+      const user = await userSchema.findById(decoded.userId)
+      if (res) return res.json({ user })
+      else return res.json({ message: "No user with that id"})
+      // return res.json({
+      //   user: { username: decoded.username, userId: decoded.userId },
+      // });
       // next()
     }
   });

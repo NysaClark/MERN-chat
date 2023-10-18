@@ -34,16 +34,19 @@ const SignUp = ({ setUser }) => {
       username: userForm.username,
       email: userForm.email,
       password: userForm.password
-    }, {withCredentials: true}).then((res) => {
+    }, { withCredentials: true }).then((res) => {
       // console.log(res.data);
 
       if (res.data.user) {
         setUser(res.data.user)
-
+      }else{
+        setErr(res.data.error)
+        // setErr("Email or username are already taken")
       }
-    }).catch((err) => {
-      console.log(err.message)
-      setErr(err.response.data.message)
+    }).catch((error) => {
+      // console.log(error.message)
+      // console.log(error.message)
+      setErr(error.message)
     })
   }
 

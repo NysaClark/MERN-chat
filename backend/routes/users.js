@@ -12,9 +12,10 @@ const messageSchema = require("../models/Message");
 
 // GET user contacts
 router.route("/:userId/contacts").get(async (req, res, next) => {
+  // console.log("GET contacts")
   const { userId } = req.params;
 
-  console.log(req.params)
+  // console.log(req.params)
 
   // $ne selects the documents where the value of the specified field is not equal to the specified value.
   // so this find will return to the user a list of all the users in the DB except for themself
@@ -26,9 +27,10 @@ router.route("/:userId/contacts").get(async (req, res, next) => {
 
       res.json({ users });
     })
-    .catch((err) => {
-      console.log("Contacts Error " + err.messge);
-      return next(err);
+    .catch((error) => {
+      
+      console.log("Contacts Error " + error);
+      return next(error);
     });
 
   // res.send("user contacts")
@@ -49,9 +51,9 @@ router.route("/:userId/messages").get(async (req, res, next) => {
       //   console.log(messages);
       res.json({ messages });
     })
-    .catch((err) => {
-      console.log("Get Messages Error " + err.message);
-      return next(err);
+    .catch((error) => {
+      console.log("Get Messages Error " + error);
+      return next(error);
     });
 
   //   res.send("user messages");
@@ -73,9 +75,9 @@ router.route("/:userId/rooms").get(async (req, res, next) => {
       // console.log(rooms);
       res.json({ rooms });
     })
-    .catch((err) => {
-      console.log("Get Messages Error " + err.message);
-      return next(err);
+    .catch((error) => {
+      console.log("Get Messages Error " + error);
+      return next(error);
     });
 
   //   res.send("user messages");
@@ -101,9 +103,9 @@ router.route("/:userId/message").post(async (req, res, next) => {
       console.log(newMessage);
       res.json({ newMessage });
     })
-    .catch((err) => {
-      console.log("Send Message Error " + err.message);
-      return next(err);
+    .catch((error) => {
+      console.log("Send Message Error " + error);
+      return next(error);
     });
 
   //   res.send("send user message");
@@ -133,9 +135,9 @@ router.route("/:userId/room").post(async (req, res, next) => {
       // console.log(newRoom);
       res.json({ room: newRoom });
     })
-    .catch((err) => {
-      console.log("Create Room Error " + err.message);
-      return next(err);
+    .catch((error) => {
+      console.log("Create Room Error " + error);
+      return next(error);
     });
   //   res.send("create chat room");
 });

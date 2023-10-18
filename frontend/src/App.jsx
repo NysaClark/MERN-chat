@@ -15,27 +15,33 @@ function App() {
   const [cookies, setCookie, removeCookie] = useCookies([]);
 
   useEffect(() => {
-    // setUser()
+    setUser()
 
     const verifyCookie = async () => {
-      // console.log(typeof cookies.token)
-      if (!cookies.token || cookies.token == "undefined") {
-        console.log("no user");
-        // navigate("/login");
       
+      if (!cookies.token || cookies.token == "undefined" && !user) {
+        // console.log("no user");
+        // navigate("/login");
       } else {
-
-        let res = await axios.post(
+        // console.log(cookies.token);
+        await axios.post(
           "http://localhost:4000/",
           {},
           { withCredentials: true }
-        );
+        ).then((res) => {
+          const { user } = res.data;
+          // console.log(user)
+          setUser(user)
+        }).catch(err => {
+          console.log(err)
+          console.log(err.message)
+        })
 
-        const { user } = res.data;
-        console.log(user)
-        // setCookie()
+        // const { message, user } = res.data;
+        // console.log(user)
+        // // setCookie()
         
-        setUser(user)
+        // setUser(user)
 
         // setUsername(user);
       };
@@ -44,13 +50,19 @@ function App() {
     verifyCookie();
   }, [cookies, removeCookie]);
 
+  const logout = () => {
+
+    removeCookie("token");
+    setUser()
+  }
+
   return (
     <BrowserRouter>
       <div>
         <Routes>
           {/* If the user tries to go to the home page or create-room page but they haven't logged in they'll be sent to the login page */}
-          <Route path="/" element={user ? <Home user={user}  /> : <Navigate to="/login" replace={true} />}></Route>
-          <Route path="/create-room" element={user ? <Rooms user={user}  /> : <Navigate to="/login" replace={true} />}></Route>
+          <Route path="/" element={user ? <Home user={user} logout={logout}  /> : <Navigate to="/login" replace={true} />}></Route>
+          <Route path="/create-room" element={user ? <Rooms user={user} logout={logout}  /> : <Navigate to="/login" replace={true} />}></Route>
 
           {/* If the user tries to go to the login or signup page but they're already logged in they'll be sent to the chat page (/) */}
           <Route path="/login" element={user ? <Navigate to="/" replace={true} /> : <Login setUser={setUser} />}></Route>

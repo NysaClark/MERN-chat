@@ -27,6 +27,12 @@ router.route("/register").post(async (req, res, next) => {
         expiresIn: "1d",
       });
 
+      res.cookie("token", token, {
+        withCredentials: true,
+        httpOnly: false,
+      });
+      
+
       // console.log(`TOKEN ${token}`);
       // cookie
 
@@ -34,9 +40,13 @@ router.route("/register").post(async (req, res, next) => {
         user: newUser,
       });
     })
-    .catch((err) => {
-      console.log("Register Error " + err.messge);
-      return next(err);
+    .catch((error) => {
+      // console.log(error.message)
+      res.json({
+        error: error.message
+      })
+      // console.log("Register Error " + error.message);
+      return next(error.message);
     });
 
   // res.send("register")
@@ -81,9 +91,10 @@ router.route("/login").post(async (req, res, next) => {
 
       res.json({ user });
     })
-    .catch((err) => {
-      console.log("Login Error " + err.message);
-      return next(err);
+    .catch((error) => {
+     
+      console.log("Login Error " + error.message);
+      return next(error);
     });
   //   res.send("login");
 });
