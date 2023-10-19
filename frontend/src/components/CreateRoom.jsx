@@ -16,9 +16,9 @@ const CreateRoom = ({ user, err, setErr, selectedUsers }) => {
 			return setErr("You must give a room name")
 		}
 
-		if (selectedUsers.length <= 1) {
-			return setErr("You must select more than one user")
-		}
+		// if (selectedUsers.length <= 1) {
+		// 	return setErr("You must select more than one user")
+		// }
 
 		setErr();
 

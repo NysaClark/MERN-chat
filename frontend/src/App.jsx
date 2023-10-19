@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import { useCookies } from "react-cookie";
+
 import socketIO from "socket.io-client"
-// const socket = socketIO.connect("http://localhost:4000")
+const socket = socketIO.connect("http://localhost:4000")
 
 import Home from "./pages/Home"
 import Login from "./pages/Login"
@@ -61,7 +62,7 @@ function App() {
       <div>
         <Routes>
           {/* If the user tries to go to the home page or create-room page but they haven't logged in they'll be sent to the login page */}
-          <Route path="/" element={user ? <Home user={user} logout={logout}  /> : <Navigate to="/login" replace={true} />}></Route>
+          <Route path="/" element={user ? <Home user={user} logout={logout} socket={socket}  /> : <Navigate to="/login" replace={true} />}></Route>
           <Route path="/create-room" element={user ? <Rooms user={user} logout={logout}  /> : <Navigate to="/login" replace={true} />}></Route>
 
           {/* If the user tries to go to the login or signup page but they're already logged in they'll be sent to the chat page (/) */}

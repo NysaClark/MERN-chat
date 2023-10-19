@@ -89,14 +89,24 @@
 //   });
 // });
 
+const messageSchema = require("../models/Message");
+const roomSchema = require("../models/Room");
+
 const initSocket = (server, corsOptions) => {
   const io = require("socket.io")(server, { cors: corsOptions });
 
-  let onlineUsers = [];
+  // let onlineUsers = [];
 
-  io.on("connection", socket => {
-    
-  })
+  io.on("connection", (socket) => {
+ 
+
+    socket.on("joinChat", async (openChat, chatId) => {
+    });
+
+    socket.on("joinRoom", async (openChat) => {
+
+    });
+  });
 };
 
 module.exports = initSocket;

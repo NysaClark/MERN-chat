@@ -1,15 +1,29 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useEffect } from 'react'
+import ChatFooter from './ChatFooter'
+import ChatBody from './ChatBody'
 
-const OpenChat = ({ openChat }) => {
+
+const OpenChat = ({ socket, openChat }) => {
+  useEffect(() => {
+    console.log(openChat)
+
+    // if(openChat.contact){
+    //   socket.emit("joinChat", openChat, socket.id)
+    // }else if(openChat.room){
+    //   socket.emit("joinRoom", openChat)
+    // }
+  }, [openChat, socket])
+
+
   return (
-    <div>
-      {openChat ?
-        <div id='openChat'>Open Chat</div>
-      :
-        <div id='openChat'>
-          Select a user/room to start a chat
-        </div>
-      }
+    <div id='openChat'>
+      <div className="chat-header">
+        {openChat.contact ? openChat.contact.username : openChat.room.roomName}
+
+      </div>
+      <ChatBody />
+      <ChatFooter />
     </div>
   )
 }

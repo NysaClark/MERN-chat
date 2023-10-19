@@ -1,6 +1,6 @@
-// import React, { useState } from 'react'
+import React, { useState } from 'react'
 
-// const ChatFooter = ({ socket }) => {
+const ChatFooter = ({  }) => {
 //   const [message, setMessage] = useState("")
 
 //   const handleSendMessage = (e) => {
@@ -14,20 +14,20 @@
 //     }
 //     setMessage("")
 //   }
-//   return (
-//     <div className='chat__footer'>
-//       <form className='form' onSubmit={handleSendMessage}>
-//         <input
-//           type="text"
-//           placeholder='Write message'
-//           className='message'
-//           value={message}
-//           onChange={e => setMessage(e.target.value)}
-//         />
-//         <button className="sendBtn">SEND</button>
-//       </form>
-//     </div>
-//   )
-// }
+  return (
+    <div className='chat-footer'>
+      <form className='form' onSubmit={() => {}}>
+        <input
+          type="text"
+          placeholder='Write message'
+          className='message'
+        //   value={message}
+        //   onChange={e => setMessage(e.target.value)}
+        />
+        <button className="sendBtn"><i className="bi bi-send-fill"></i></button>
+      </form>
+    </div>
+  )
+}
 
-// export default ChatFooter
+export default ChatFooter

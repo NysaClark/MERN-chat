@@ -23,10 +23,9 @@
   height: 100vh;
 }
 
-a{
+a {
   text-decoration: none;
 }
-
 
 .form-wrapper {
   width: 100%;
@@ -110,11 +109,11 @@ a{
   padding: 0 2rem;
 }
 
-.header a{
+.header a {
   color: var(--primary);
 }
 
-.header a:active{
+.header a:active {
   color: var(--primary);
 }
 
@@ -134,17 +133,17 @@ a{
   padding: 0.5rem 0.6rem 0.4rem 0.7rem;
   border: none;
   background-color: var(--white);
+  cursor: pointer;
   /* text-decoration: none; */
 }
 
-.header i{
+.header i {
   font-size: 1.5rem;
   color: var(--primary-dark);
 }
 
-
-
-#chats, #rooms {
+#chats,
+#rooms {
   background-color: var(--white);
   height: 90vh;
   width: 100%;
@@ -156,7 +155,8 @@ a{
 
 /* Contacts List */
 
-#contactsList, #roomMembers {
+#contactsList,
+#roomMembers {
   width: 25%;
   /* width: 20%; */
   overflow-y: auto;
@@ -170,8 +170,8 @@ a{
   cursor: pointer;
 }
 
-#contactsList button i{
-  margin-left: .5rem;
+#contactsList button i {
+  margin-left: 0.5rem;
 }
 
 .contacts,
@@ -196,16 +196,99 @@ a{
   justify-content: space-between;
 }
 
-
 /* Create Room */
-.form-wrapper#createRoom{
+.form-wrapper#createRoom {
   padding-top: 2rem;
 }
 
-#createRoom .container{
+#createRoom .container {
   height: fit-content;
 }
 
-.contacts .selected{
+.contacts .selected {
   background-color: var(--light-green);
+}
+
+/* Open Chat */
+#openChat {
+  width: 90%;
+  margin-left: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: var(--white);
+  border: 1px solid var(--primary-white);
+  border-radius: 5px;
+}
+
+#openChat h2 {
+  width: fit-content;
+  margin: auto;
+  color: var(--primary);
+}
+
+#openChat .chat-header {
+  width: 100%;
+  padding: 1rem;
+  text-align: center;
+  background-color: var(--primary-white);
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--primary-dark);
+}
+
+.chat-header i{
+  text-align: end;
+}
+
+#openChat .chat-body {
+  height: 100%;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+#openChat .chat-footer {
+  width: 100%;
+}
+
+.chat-footer form {
+  margin: 0.5rem;
+  height: 55px;
+  background-color: var(--primary-white);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.chat-footer input {
+  flex: 1 1 0%;
+  padding: 1rem 0px;
+  margin: 0px 0.5rem 0px 1rem;
+  border-radius: 20px;
+  border: none;
+  background-color: transparent;
+  color: var(--primary-dark);
+  outline: none;
+  font-size: 1rem;
+}
+
+.chat-footer .message:focus {
+  outline: none;
+}
+
+.chat-footer .sendBtn {
+  margin-right: 0.5rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 15px;
+  background-color: var(--primary);
+  color: var(--primary-white);
+  outline: none;
+  border: none;
+  padding-top: 0.2rem;
+}
+
+.sendBtn i {
+  font-size: 1.2rem;
+  cursor: pointer;
 }
