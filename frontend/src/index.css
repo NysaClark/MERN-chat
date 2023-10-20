@@ -227,6 +227,7 @@ a {
   color: var(--primary);
 }
 
+
 #openChat .chat-header {
   width: 100%;
   padding: 1rem;
@@ -237,7 +238,7 @@ a {
   color: var(--primary-dark);
 }
 
-.chat-header i{
+.chat-header i {
   text-align: end;
 }
 
@@ -245,7 +246,47 @@ a {
   height: 100%;
   padding: 1rem;
   overflow-y: auto;
+  
 }
+
+.chat-body .messages{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-body .message{
+  margin: 1rem 0;
+  width: fit-content;
+  padding: .5rem;
+  border-radius: 10px;
+  background: var(--primary-lighter);
+}
+
+.chat-body .message.you{
+  border-bottom-right-radius: 0px;
+  text-align: end;
+  align-self: end;
+}
+
+.chat-body .message.other{
+  border-bottom-left-radius: 0px;
+  text-align: start;
+}
+
+.chat-body .message span{
+  font-size: .8rem;
+  color: var(--primary);
+}
+
+.chat-body h2 {
+  justify-content: center;
+  flex-direction: column;
+  display: flex;
+  height: 100%;
+}
+
+
 
 #openChat .chat-footer {
   width: 100%;

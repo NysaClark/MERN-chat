@@ -20,9 +20,8 @@ const OpenChat = ({ socket, openChat }) => {
     <div id='openChat'>
       <div className="chat-header">
         {openChat.contact ? openChat.contact.username : openChat.room.roomName}
-
       </div>
-      <ChatBody />
+      <ChatBody openChat={openChat} socket={socket} />
       <ChatFooter />
     </div>
   )

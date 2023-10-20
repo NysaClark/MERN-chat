@@ -1,4 +1,4 @@
-// const mongoose = require("mongoose");
+const mongoose = require("mongoose");
 const router = require("express").Router();
 
 // import middleware (?)
@@ -38,17 +38,19 @@ router.route("/:userId/contacts").get(async (req, res, next) => {
 
 // GET user messages
 router.route("/:userId/messages").get(async (req, res, next) => {
+  // console.log(req.query)
   const { userId } = req.params;
-  const { chatId } = req.query;
-
-  if (!userId || !chatId) {
+  
+  if (!userId) {
     return res.status(400).json({ message: "Missing required information." });
   }
 
+  let id = new mongoose.Types.ObjectId(userId)
+
   await messageSchema
-    .find({ chatId: chatId })
+    .find({ $or: [{ "reciever._id": id}, {"sender._id": id}]})
     .then((messages) => {
-      //   console.log(messages);
+      console.log(messages);
       res.json({ messages });
     })
     .catch((error) => {
@@ -84,20 +86,22 @@ router.route("/:userId/rooms").get(async (req, res, next) => {
 });
 
 // POST send user message
-router.route("/:userId/message").post(async (req, res, next) => {
-  const { userId } = req.params;
-  const { chatId } = req.query;
+router.route("/:userId/:contactId/message").post(async (req, res, next) => {
+  const { userId, contactId } = req.params;
   const { message } = req.body;
 
-  if (!userId || !chatId || !message) {
+  if (!userId || !message || !contactId) {
     return res.status(400).json({ message: "Missing required information." });
   }
+
+  let user = await userSchema.findById(userId);
+  let contact = await userSchema.findById(contactId);
 
   await messageSchema
     .create({
       message,
-      chatId: chatId,
-      sender: userId,
+      reciever: {_id: contact._id, username: contact.username},
+      sender: {_id: user._id, username: user.username},
     })
     .then((newMessage) => {
       console.log(newMessage);
