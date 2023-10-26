@@ -11,7 +11,7 @@ const ChatBody = ({ openChat, user, messages }) => {
         // console.log('function ')
          openChat.members.forEach(async (memberId) => {
             console.log('members')
-            await axios.get(`http://localhost:4000/api/users/${memberId}`).then((res) => {
+            await axios.get(`https://mern-chat-app-b96k.onrender.com/api/users/${memberId}`).then((res) => {
                 console.log(res.data.user);
                 // setMembers((prev) => {...prev, res.data.user})
                 setMembers((prev) => ({

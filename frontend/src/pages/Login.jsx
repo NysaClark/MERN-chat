@@ -24,7 +24,7 @@ const Login = ({ setUser }) => {
 
         setErr();
 
-        axios.post("http://localhost:4000/api/auth/login", userForm, { withCredentials: true }).then((res) => {
+        axios.post("https://mern-chat-app-b96k.onrender.com/api/auth/login", userForm, { withCredentials: true }).then((res) => {
             // console.log(res.data.user);
 
             if (res.data.user) {

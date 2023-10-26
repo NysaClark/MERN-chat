@@ -23,7 +23,7 @@ function App() {
       } else {
         // console.log(cookies.token);
         await axios.post(
-          "http://localhost:4000/",
+          "https://mern-chat-app-b96k.onrender.com/",
           {},
           { withCredentials: true }
         ).then((res) => {

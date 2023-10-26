@@ -16,7 +16,7 @@ const CreateRoom = ({ user, err, setErr, selectedUsers }) => {
 
 		setErr();
 
-		axios.post(`http://localhost:4000/api/users/${user._id}/chat`, {
+		axios.post(`https://mern-chat-app-b96k.onrender.com/api/users/${user._id}/chat`, {
 			name: roomName,
 			members: selectedUsers,
 			type: "room"

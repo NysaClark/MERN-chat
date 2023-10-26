@@ -30,7 +30,7 @@ const SignUp = ({ setUser }) => {
 
     }
 
-    axios.post("http://localhost:4000/api/auth/register", {
+    axios.post("https://mern-chat-app-b96k.onrender.com/api/auth/register", {
       username: userForm.username,
       email: userForm.email,
       password: userForm.password
