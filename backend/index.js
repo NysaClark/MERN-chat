@@ -8,7 +8,7 @@ require("dotenv").config();
 const initSocket = require("./socket/index")
 
 const app = express();
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/users");
