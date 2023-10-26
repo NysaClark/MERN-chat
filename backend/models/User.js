@@ -16,10 +16,6 @@ const userSchema = new Schema({
       type: String,
       required: true
     }
-    // chatType: {
-    //   type: String,
-    //   default: 'user'
-    // }
   },
   {
     timestamps: true

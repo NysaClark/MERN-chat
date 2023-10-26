@@ -25,7 +25,7 @@ const Login = ({ setUser }) => {
         setErr();
 
         axios.post("http://localhost:4000/api/auth/login", userForm, { withCredentials: true }).then((res) => {
-            console.log(res.data.user);
+            // console.log(res.data.user);
 
             if (res.data.user) {
                 setUser(res.data.user)

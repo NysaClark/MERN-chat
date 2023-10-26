@@ -67,6 +67,8 @@ router.route("/login").post(async (req, res, next) => {
 
       const passwordCorrect = bcrypt.compareSync(password, user.password);
 
+    
+
       // password doesn't match
       if (!passwordCorrect) {
         return res

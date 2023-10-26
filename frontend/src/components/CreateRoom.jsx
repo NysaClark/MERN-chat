@@ -9,30 +9,24 @@ const CreateRoom = ({ user, err, setErr, selectedUsers }) => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		// console.log(roomName);
-		// console.log(selectedUsers)
 
 		if (roomName == "") {
 			return setErr("You must give a room name")
 		}
 
-		// if (selectedUsers.length <= 1) {
-		// 	return setErr("You must select more than one user")
-		// }
-
 		setErr();
 
-		axios.post(`http://localhost:4000/api/users/${user._id}/room`, {
-			roomName,
-			users: selectedUsers
+		axios.post(`http://localhost:4000/api/users/${user._id}/chat`, {
+			name: roomName,
+			members: selectedUsers,
+			type: "room"
 		}, { withCredentials: true }).then(res => {
-			if (res.data.room) {
+			if (res.data.chat) {
 				navigate("/")
 			}
 		})
 
-
-		setRoomName("")
+		setRoomName("");
 	}
 
 	return (
@@ -44,7 +38,7 @@ const CreateRoom = ({ user, err, setErr, selectedUsers }) => {
 						<p>{err}</p>
 					</div>
 				}
-
+								
 				<form onSubmit={handleSubmit}>
 					<input
 						type="text"

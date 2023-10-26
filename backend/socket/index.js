@@ -1,111 +1,83 @@
-// const socketIO = require("socket.io")(http, {
-//   cors: {
-//     origin: "http://localhost:5173",
-//   },
-// });
-
-// let users = [];
-
-// // Join user to chat
-// const newUser = (id, username) => {
-//   const user = { id, username };
-
-//   users.push(user);
-
-//   return user;
-// }
-
-// // Get current user
-// const getActiveUser = (id) => {
-//   return users.find((user) => user.id === id);
-// }
-
-// // User leaves chat
-// const exitRoom = (id) => {
-//   const index = users.findIndex((user) => user.id === id);
-
-//   if (index !== -1) {
-//     return users.splice(index, 1)[0];
-//   }
-// }
-
-// // Get room users
-// const getRoomUsers = () => {
-//   return users;
-// }
-
-// // Listen for incoming connections from clients
-// socketIO.on("connection", (socket) => {
-//   socket.on("joinRoom", ({ username }) => {
-//     const user = newUser(socket.id, username);
-
-//     socket.join("Room 1");
-
-//     // General welcome
-//     socket.emit("message", {
-//       username: "Chat",
-//       text: "Messages are limited to this room!",
-//     });
-
-//     // Broadcast everytime users connects
-//     socket.broadcast.to("Room 1").emit("message", {
-//       username: "Chat",
-//       text: `${user.username} has joined the room`,
-//     });
-
-//     // Current active users and room name
-//     socketIO.to("Room 1").emit("roomUsers", {
-//       users: getRoomUsers(),
-//     });
-
-//     // Listen for client message
-//     socket.on("chatMessage", ({msg}) => {
-//       console.log(msg)
-//       const user = getActiveUser(socket.id);
-//       socketIO.to("Room 1").emit("message", { username: user.username, text: msg, socketID: socket.id});
-//     });
-
-//     socket.on("userLeft", () => {
-//       socket.disconnect();
-//     })
-//   });
-
-//   // Runs when client disconnects
-//   socket.on("disconnect", () => {
-//     const user = exitRoom(socket.id);
-
-//     if (user) {
-//       socketIO.to("Room 1").emit("message", {
-//         username: "Chat",
-//         text: `${user.username} has left the room`,
-//       });
-
-//       // Current active users and room name
-//       socketIO.to("Room 1").emit("roomUsers", {
-//         room: "Room 1",
-//         users: getRoomUsers(),
-//       });
-//     }
-//   });
-// });
-
 const messageSchema = require("../models/Message");
-const roomSchema = require("../models/Room");
+const userSchema = require("../models/User");
+const chatSchema = require("../models/Chat");
 
 const initSocket = (server, corsOptions) => {
   const io = require("socket.io")(server, { cors: corsOptions });
 
-  // let onlineUsers = [];
+  let users = [];
+
+  const addUser = (userId, socketId) => {
+    !users.some((user) => user.userId === userId) &&
+      users.push({ userId, socketId });
+  };
+
+  const removeUser = (socketId) => {
+    users = users.filter((user) => user.socketId !== socketId);
+  };
+
+  const getUser = (userId) => {
+    return users.find((user) => user.userId === userId);
+  };
 
   io.on("connection", (socket) => {
- 
+    // console.log(`user connected: ${socket.id}`);
 
-    socket.on("joinChat", async (openChat, chatId) => {
+    //take userId and socketId from user
+    socket.on("addUser", (userId) => {
+      addUser(userId, socket.id);
+      // io.emit("getUsers", users);
     });
 
-    socket.on("joinRoom", async (openChat) => {
+    socket.on("sendMessage", ({ sender, receivers, message }) => {
+      receivers.forEach((receiverId) => {
+        let user = getUser(receiverId);
 
+        if (user) { // if the other users are online send them the new message
+          io.to(user.socketId).emit("getNewMessage", {
+            sender,
+            message,
+          });
+        }
+      });
     });
+
+    //when disconnect
+    socket.on("disconnect", () => {
+      // console.log("user disconnected");
+      removeUser(socket.id);
+      // io.emit("getUsers", users);
+    });
+
+    // socket.on("sendMessage", async ({ msg, sender, recievers, chatType }) => {
+    //   // console.log(recievers)
+
+    //   let userArray = [];
+
+    //   for(user of recievers){
+    //     if(user !== sender._id){
+    //       await userSchema.findOne({_id: user}, "_id username").then((u) => {
+    //         userArray.push(u)
+    //       })
+    //     }
+    //   }
+
+    //   const newMsg = {
+    //     sender,
+    //     recievers: userArray,
+    //     message: msg,
+    //     chatType,
+    //   };
+
+    //   console.log("message", newMsg);
+
+    //   await messageSchema.create(newMsg).then((newMsg) => {
+    //     socket.emit("newMsgRecieved", newMsg)
+    //   })
+    //   // console.log(recieverArray);
+
+    //   // let prevChat = messageSchema.find({ chatType: chatType, $or: [{ "sender._id": sender._id}, {"recievers": {$in: [sender]}}] })
+    // });
   });
 };
 

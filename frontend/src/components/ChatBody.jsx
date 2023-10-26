@@ -1,53 +1,46 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from "react-router-dom"
 import axios from "axios"
-const ChatBody = ({ openChat, socket }) => {
-
-    const [messages, setMessages] = useState([])
-    // const [currentUser, setCurrentUser] = useState("")
-    // const navigate = useNavigate()
-
-    // let { username } = useParams();
-
-
-    // const handleLeaveChat = () => {
-    //     socket.emit("userLeft")
-    //     navigate("/")
-    //     window.location.reload()
-    // }
-
-    // useEffect(() => {
-    //     setCurrentUser(username)
-    // }, [])
+const ChatBody = ({ openChat, user, messages }) => {
+    // console.log(openChat)
+    
+  // let {chatId, chatType, title, members } = openChat;
+    const [members, setMembers] = useState({});
 
     useEffect(() => {
-        console.log(openChat.user)
-        const getMessages = async () => {
-            await axios.get(`http://localhost:4000/api/users/${openChat.user._id}/messages`).then((res) => {
-                console.log(res.data.messages);
-                setMessages(res.data.messages)
+      const getMembers =  () =>{
+        // console.log('function ')
+         openChat.members.forEach(async (memberId) => {
+            console.log('members')
+            await axios.get(`http://localhost:4000/api/users/${memberId}`).then((res) => {
+                console.log(res.data.user);
+                // setMembers((prev) => {...prev, res.data.user})
+                setMembers((prev) => ({
+                    ...prev,
+                    [res.data.user._id]: res.data.user.username,
+                }));
             })
-        }
-
-        getMessages();
-    }, [])
-
-
+        })
+      }
+      getMembers()
+    //   console.log(members)
+    }, [openChat])
+    
 
     return (
+   
         <div className='chat-body'>
             <div className="messages">
-                {messages.length ? <>
-                    {messages.map((message) => {
+                {messages.length ?
+                    messages.map((msg) => {
                         return (
-                            <div className={message.sender._id == openChat.user._id ? "message you" : "message other"} key={message._id} >
-                                <p>{message.message}</p>
-                                <span>{message.sender.username}</span>
+                            <div className={msg.sender == user._id ? "message you" : "message other"} key={msg._id} >
+                                <p>{msg.message}</p>
+                                <span>{members[msg.sender]}</span>
                             </div>
                         )
-                    })}
-                </>
-                : <h2>Type to start chatting!</h2>
+                    })
+                
+                     : <h2>Type to start chatting!</h2> 
                 }
             </div>
         </div>

@@ -10,7 +10,7 @@ const ContactsList = ({ user, setOpenChat }) => {
 
   const fetchUsers = async () => {
     // console.log(user)
-    axios.get(`http://localhost:4000/api/users/${user._id}/contacts`, {withCredentials: true}).then((res) => {
+    axios.get(`http://localhost:4000/api/users/${user._id}/contacts`, { withCredentials: true }).then((res) => {
 
       if (res.data.users) {
         setUserList(res.data.users)
@@ -21,13 +21,44 @@ const ContactsList = ({ user, setOpenChat }) => {
   }
 
   const fetchRooms = async () => {
-    axios.get(`http://localhost:4000/api/users/${user._id}/rooms`, {withCredentials: true}).then((res) => {
-      if (res.data.rooms) {
-        setRoomsList(res.data.rooms)
+    // /:userId/chat/:chatType
+    axios.get(`http://localhost:4000/api/users/${user._id}/chat/room`, { withCredentials: true }).then((res) => {
+    console.log(res.data)  
+    if (res.data.chats) {
+        setRoomsList(res.data.chats)
       }
     }).catch((err) => {
       console.log(err.message)
     })
+  }
+
+  const handleOpenChat = async ( chatType, contact, room ) => {
+    if (chatType == "private") {
+
+      //check if there's already a chat in DB
+      await axios.get(`http://localhost:4000/api/users/chat/${user._id}/${contact._id}`).then(async (res) => {
+
+        if (res.data.chat) { //if there's a chat in DB
+        
+          setOpenChat({ chatId: res.data.chat._id, chatType: res.data.chat.type, members: res.data.chat.members, title: contact.username })
+        } else { // need to create one
+          
+          await axios.post(`http://localhost:4000/api/users/${user._id}/chat`, {
+            type: chatType,
+            members: [contact._id]
+          }).then((res) => {
+            
+            setOpenChat({ chatId: res.data.chat._id, chatType: res.data.chat.type, members: res.data.chat.members, title: contact.username })
+          })
+        }
+      })
+    } else if (chatType == "room") {
+      await axios.get(`http://localhost:4000/api/users/chat/${room._id}`).then((res) => {
+       
+        setOpenChat({ chatId: res.data.chat._id, chatType: res.data.chat.type, members: res.data.chat.members, title: res.data.chat.name })
+      })
+    }
+
   }
 
   useEffect(() => {
@@ -48,7 +79,7 @@ const ContactsList = ({ user, setOpenChat }) => {
       <ul className="contacts">
         {showContacts && userList && userList.map((contact) => {
           return (
-            <li onClick={() => setOpenChat({user, contact})} key={contact._id}>{contact.username}</li>
+            <li onClick={() => handleOpenChat("private", contact, null)} key={contact._id}>{contact.username}</li>
           )
         })}
       </ul>
@@ -63,9 +94,9 @@ const ContactsList = ({ user, setOpenChat }) => {
       <ul className="rooms">
         {showRooms && roomsList.length ? roomsList.map((room) => {
           return (
-            <li onClick={() => setOpenChat({user, room})} key={room.chatId}><p>{room.roomName}</p><p>{room.chatUsers.length} users</p></li>
+            <li onClick={() => handleOpenChat("room", null, room)} key={room._id}><p>{room.name}</p><p>{room.members.length} users</p></li>
           )
-        }): <p>You aren't in any rooms!</p>}
+        }) : <p>You aren't in any rooms!</p>}
       </ul>
     </div>
   )

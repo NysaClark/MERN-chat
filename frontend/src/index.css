@@ -274,6 +274,10 @@ a {
   text-align: start;
 }
 
+.chat-body .message p{
+  font-size: 1.1rem;
+}
+
 .chat-body .message span{
   font-size: .8rem;
   color: var(--primary);
