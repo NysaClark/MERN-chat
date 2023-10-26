@@ -15,13 +15,14 @@ const userRoutes = require("./routes/users");
 
 const authMiddleware = require("./middleware/authMiddleware");
 
-const corsOptions = {
-  //connect to frontend
-  origin: "https://mern-chat-l99i.onrender.com/",
-  credentials: true,
-};
+// const corsOptions = {
+//   //connect to frontend
+//   origin: "https://mern-chat-l99i.onrender.com",
+//   credentials: true,
+// };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
