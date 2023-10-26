@@ -46,4 +46,4 @@ const server = app.listen(PORT, () => {
 });
 
 // init socket w/ server & corsOptions
-initSocket(server, corsOptions)
+initSocket(server)

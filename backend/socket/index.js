@@ -2,8 +2,9 @@ const messageSchema = require("../models/Message");
 const userSchema = require("../models/User");
 const chatSchema = require("../models/Chat");
 
-const initSocket = (server, corsOptions) => {
-  const io = require("socket.io")(server, { cors: corsOptions });
+const initSocket = (server) => {
+  // const io = require("socket.io")(server, { cors: corsOptions });
+  const io = require("socket.io")(server);
 
   let users = [];
 
