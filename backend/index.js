@@ -18,6 +18,7 @@ const authMiddleware = require("./middleware/authMiddleware");
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "https://mern-chat-l99i.onrender.com");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Credentials", "true")
   next();
 });
 
