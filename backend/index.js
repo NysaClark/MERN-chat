@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const cors = require("cors");
+// const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
 require("dotenv").config();
@@ -15,16 +15,22 @@ const userRoutes = require("./routes/users");
 
 const authMiddleware = require("./middleware/authMiddleware");
 
-const corsOptions = {
-  //connect to frontend
-  // origin: ["https://mern-chat-l99i.onrender.com", "http://localhost:5173"],
-  origin: "https://mern-chat-l99i.onrender.com",
-  credentials: true,
-  methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH'],
-};
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "https://mern-chat-l99i.onrender.com");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
-// app.use(cors(corsOptions));
-app.use(cors());
+// const corsOptions = {
+//   //connect to frontend
+//   // origin: ["https://mern-chat-l99i.onrender.com", "http://localhost:5173"],
+//   origin: "https://mern-chat-l99i.onrender.com",
+//   credentials: true,
+//   methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH'],
+// };
+
+// // app.use(cors(corsOptions));
+// app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
