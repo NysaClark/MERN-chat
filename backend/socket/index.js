@@ -4,7 +4,14 @@ const chatSchema = require("../models/Chat");
 
 const initSocket = (server) => {
   // const io = require("socket.io")(server, { cors: corsOptions });
-  const io = require("socket.io")(server);
+  const io = require("socket.io")(server, {
+    cors: {
+      origin: "https://mern-chat-l99i.onrender.com",
+      methods: ["GET", "POST"],
+      credentials: true,
+      allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept"]
+    },
+  });
 
   let users = [];
 
@@ -34,7 +41,8 @@ const initSocket = (server) => {
       receivers.forEach((receiverId) => {
         let user = getUser(receiverId);
 
-        if (user) { // if the other users are online send them the new message
+        if (user) {
+          // if the other users are online send them the new message
           io.to(user.socketId).emit("getNewMessage", {
             sender,
             message,
