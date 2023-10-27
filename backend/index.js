@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser");
 
 require("dotenv").config();
 
-const initSocket = require("./socket/index")
+const initSocket = require("./socket/index");
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -15,11 +15,13 @@ const userRoutes = require("./routes/users");
 
 const authMiddleware = require("./middleware/authMiddleware");
 
-// const corsOptions = {
-//   //connect to frontend
-//   origin: "https://mern-chat-l99i.onrender.com",
-//   credentials: true,
-// };
+const corsOptions = {
+  //connect to frontend
+  // origin: ["https://mern-chat-l99i.onrender.com", "http://localhost:5173"],
+  origin: "https://mern-chat-l99i.onrender.com",
+  credentials: true,
+  methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH'],
+};
 
 // app.use(cors(corsOptions));
 app.use(cors());
@@ -31,8 +33,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 //users
-
-
 
 mongoose
   .connect(process.env.MONGO_URI)
@@ -46,4 +46,4 @@ const server = app.listen(PORT, () => {
 });
 
 // init socket w/ server & corsOptions
-initSocket(server)
+initSocket(server);
