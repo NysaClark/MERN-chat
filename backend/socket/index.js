@@ -2,16 +2,16 @@ const messageSchema = require("../models/Message");
 const userSchema = require("../models/User");
 const chatSchema = require("../models/Chat");
 
-const initSocket = (server) => {
-  // const io = require("socket.io")(server, { cors: corsOptions });
-  const io = require("socket.io")(server, {
-    cors: {
-      origin: "https://mern-chat-l99i.onrender.com",
-      methods: ["GET", "POST"],
-      credentials: true,
-      allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept"]
-    },
-  });
+const initSocket = (server, corsOptions) => {
+  const io = require("socket.io")(server, { cors: corsOptions });
+  // const io = require("socket.io")(server, {
+  //   cors: {
+  //     origin: "https://mern-chat-l99i.onrender.com",
+  //     methods: ["GET", "POST"],
+  //     credentials: true,
+  //     allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept"]
+  //   },
+  // });
 
   let users = [];
 

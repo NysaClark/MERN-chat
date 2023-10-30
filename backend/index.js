@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-// const cors = require("cors");
+const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
 require("dotenv").config();
@@ -15,23 +15,24 @@ const userRoutes = require("./routes/users");
 
 const authMiddleware = require("./middleware/authMiddleware");
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "https://mern-chat-l99i.onrender.com");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.header("Access-Control-Allow-Credentials", "true")
-  next();
-});
+// app.use(function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "https://mern-chat-l99i.onrender.com");
+//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   res.header("Access-Control-Allow-Credentials", "true")
+//   next();
+// });
 
-// const corsOptions = {
-//   //connect to frontend
-//   // origin: ["https://mern-chat-l99i.onrender.com", "http://localhost:5173"],
-//   origin: "https://mern-chat-l99i.onrender.com",
-//   credentials: true,
-//   methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH'],
-// };
+const corsOptions = {
+  //connect to frontend
+  origin: ["https://mern-chat-l99i.onrender.com", "http://localhost:5173"],
+  allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept"],
+  // origin: "https://mern-chat-l99i.onrender.com",
+  credentials: true,
+  methods: ['GET','POST'],
+};
 
-// // app.use(cors(corsOptions));
-// app.use(cors());
+app.use(cors(corsOptions));
+
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -53,4 +54,4 @@ const server = app.listen(PORT, () => {
 });
 
 // init socket w/ server & corsOptions
-initSocket(server);
+initSocket(server, corsOptions);
