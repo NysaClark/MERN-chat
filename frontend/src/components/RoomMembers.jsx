@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import axios from "axios"
+import { baseURL } from '../util'
+
 const RoomMembers = ({ user, setErr, selectedUsers, setSelectedUsers }) => {
     const [userList, setUserList] = useState([])
 
     const fetchUsers = async () => {
-        axios.get(`https://mern-chat-app-b96k.onrender.com/api/users/${user._id}/contacts`, {withCredentials: true}).then((res) => {
+        axios.get(`${baseURL}/users/${user._id}/contacts`, {withCredentials: true}).then((res) => {
             if (res.data.users) {
                 setUserList(res.data.users)
             }

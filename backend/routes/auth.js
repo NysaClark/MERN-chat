@@ -65,10 +65,8 @@ router.route("/login").post(async (req, res, next) => {
           .json({ message: "Incorrect username or password" });
       }
 
-      const passwordCorrect = bcrypt.compareSync(password, user.password);
-
-    
-
+      const passwordCorrect = bcrypt.compareSync(req.body.password, user.password);
+      
       // password doesn't match
       if (!passwordCorrect) {
         return res

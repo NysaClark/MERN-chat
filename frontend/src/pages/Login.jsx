@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import axios from "axios";
+import { baseURL } from '../util';
 
 const Login = ({ setUser }) => {
     const [userForm, setUserForm] = useState({
@@ -10,7 +11,6 @@ const Login = ({ setUser }) => {
 
     const [err, setErr] = useState()
 
-
     const handleChange = (event) => {
         setErr();
         setUserForm((prev) => ({
@@ -19,14 +19,11 @@ const Login = ({ setUser }) => {
         }));
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-
         setErr();
-
-        axios.post("https://mern-chat-app-b96k.onrender.com/api/auth/login", userForm, { withCredentials: true }).then((res) => {
-            // console.log(res.data.user);
-
+        
+        await axios.post(`${baseURL}/auth/login`, userForm, { withCredentials: true }).then((res) => {
             if (res.data.user) {
                 setUser(res.data.user)
             }else{
@@ -59,7 +56,6 @@ const Login = ({ setUser }) => {
                         name="password"
                         value={userForm.password}
                         onChange={handleChange}
-
                     />
                     <button type="submit" className='btn'>Login</button>
                 </form>

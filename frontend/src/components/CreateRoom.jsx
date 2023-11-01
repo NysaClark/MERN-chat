@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { baseURL } from '../util';
 
 const CreateRoom = ({ user, err, setErr, selectedUsers }) => {
 	const [roomName, setRoomName] = useState("");
@@ -16,7 +17,7 @@ const CreateRoom = ({ user, err, setErr, selectedUsers }) => {
 
 		setErr();
 
-		axios.post(`https://mern-chat-app-b96k.onrender.com/api/users/${user._id}/chat`, {
+		axios.post(`${baseURL}/users/${user._id}/chat`, {
 			name: roomName,
 			members: selectedUsers,
 			type: "room"

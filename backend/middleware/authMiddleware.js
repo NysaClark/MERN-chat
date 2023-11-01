@@ -12,14 +12,9 @@ const authMiddleware = (req, res) => {
     if (err) {
       return res.json({ message: "Unauthorized" });
     } else {
-      // console.log(decoded)
       const user = await userSchema.findById(decoded.userId)
       if (res) return res.json({ user })
       else return res.json({ message: "No user with that id"})
-      // return res.json({
-      //   user: { username: decoded.username, userId: decoded.userId },
-      // });
-      // next()
     }
   });
 };

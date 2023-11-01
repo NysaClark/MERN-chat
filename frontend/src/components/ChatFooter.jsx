@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import {baseURL} from "../util"
 
 const ChatFooter = ({ openChat, socket, user, setMessages }) => {
   const [message, setMessage] = useState("")
@@ -27,7 +28,7 @@ const ChatFooter = ({ openChat, socket, user, setMessages }) => {
     })
 
     // add message to DB
-    await axios.post("https://mern-chat-app-b96k.onrender.com/api/users/message", newMessage).then((res) => {
+    await axios.post(`${baseURL}/users/message`, newMessage).then((res) => {
       console.log(res.data.message);
       setMessages((prev) => [...prev, res.data.message]);
     }).catch(err => console.log(err))

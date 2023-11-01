@@ -5,6 +5,7 @@ import ChatBody from './ChatBody'
 
 
 import { io } from "socket.io-client"
+import { baseURL } from '../util'
 
 
 
@@ -15,7 +16,7 @@ const OpenChat = ({ openChat, user }) => {
   const socket = useRef();
 
   useEffect(() => {
-    socket.current = io("https://mern-chat-app-b96k.onrender.com/");
+    socket.current = io(`${baseURL}/`);
 
     socket.current.on("getNewMessage", (newMessage) => {
       setMessages((prev) => [...prev, newMessage]);
@@ -32,7 +33,7 @@ const OpenChat = ({ openChat, user }) => {
   useEffect(() => {
     setMessages([])
     const getMessages = async () => {
-      await axios.get(`https://mern-chat-app-b96k.onrender.com/api/users/messages/${openChat.chatId}`).then((res) => {
+      await axios.get(`${baseURL}/users/messages/${openChat.chatId}`).then((res) => {
         console.log(res.data.messages)
         if (res.data.messages.length) setMessages(res.data.messages);
 

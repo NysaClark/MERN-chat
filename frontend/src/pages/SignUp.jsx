@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import axios from "axios";
+import { baseURL } from '../util';
 
 const SignUp = ({ setUser }) => {
-
   const [userForm, setUserForm] = useState({
     username: "",
     email: "",
@@ -20,32 +20,26 @@ const SignUp = ({ setUser }) => {
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-
     setErr();
-
+    
     if (userForm.password !== userForm.confirmPass) {
       return setErr("Passwords do not match");
 
     }
 
-    axios.post("https://mern-chat-app-b96k.onrender.com/api/auth/register", {
+    await axios.post(`${baseURL}/auth/register`, {
       username: userForm.username,
       email: userForm.email,
       password: userForm.password
     }, { withCredentials: true }).then((res) => {
-      // console.log(res.data);
-
       if (res.data.user) {
         setUser(res.data.user)
-      }else{
+      } else {
         setErr(res.data.error)
-        // setErr("Email or username are already taken")
       }
     }).catch((error) => {
-      // console.log(error.message)
-      // console.log(error.message)
       setErr(error.message)
     })
   }

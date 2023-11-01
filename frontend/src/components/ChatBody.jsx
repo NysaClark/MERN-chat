@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios"
+import { baseURL } from '../util';
+
 const ChatBody = ({ openChat, user, messages }) => {
     // console.log(openChat)
     
@@ -11,7 +13,7 @@ const ChatBody = ({ openChat, user, messages }) => {
         // console.log('function ')
          openChat.members.forEach(async (memberId) => {
             console.log('members')
-            await axios.get(`https://mern-chat-app-b96k.onrender.com/api/users/${memberId}`).then((res) => {
+            await axios.get(`${baseURL}/users/${memberId}`).then((res) => {
                 console.log(res.data.user);
                 // setMembers((prev) => {...prev, res.data.user})
                 setMembers((prev) => ({
