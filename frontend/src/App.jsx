@@ -40,7 +40,7 @@ function App() {
         <Routes>
           <Route path="/" element={user ? <Home user={user} logout={logout} /> : <Navigate to="/login" replace={true} />}></Route>
           <Route path="/create-room" element={user ? <Rooms user={user} logout={logout} /> : <Navigate to="/login" replace={true} />}></Route>
-          <Route path="/login" element={user ? <Navigate to="/" replace={true} /> : <Login setUser={setUser} />}></Route>
+          {user ? <Route path="/login" element={<Navigate to="/" replace={true} />}></Route> : <Route path="/login" element={<Login setUser={setUser} />}></Route>}
           <Route path="/signup" element={user ? <Navigate to="/" replace={true} /> : <SignUp setUser={setUser} />}></Route>
           <Route path='*' element={<Navigate to='/login' />} />
         </Routes>
