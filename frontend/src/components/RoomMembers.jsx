@@ -4,7 +4,6 @@ import { baseURL } from '../util'
 
 const RoomMembers = ({ user, setErr, selectedUsers, setSelectedUsers }) => {
     const [userList, setUserList] = useState([])
-
     const fetchUsers = async () => {
         axios.get(`${baseURL}/users/${user._id}/contacts`, {withCredentials: true}).then((res) => {
             if (res.data.users) {
@@ -15,18 +14,14 @@ const RoomMembers = ({ user, setErr, selectedUsers, setSelectedUsers }) => {
             setErr(err.message)
         })
     }
-
+    
     const handleSelect = (contactId) => {
-        // console.log('selected ' + contactId)
         if (!selectedUsers.includes(contactId)) {
-            // setSelected(true)
             setSelectedUsers((prev) => [
                 ...prev, contactId
             ])
         }else{
-            // setSelected(false)
             let newList = selectedUsers.filter(id => id !== contactId);
-            // console.log(newList)
             setSelectedUsers(newList)
         }
     }
@@ -54,5 +49,4 @@ const RoomMembers = ({ user, setErr, selectedUsers, setSelectedUsers }) => {
         </div>
     )
 }
-
 export default RoomMembers

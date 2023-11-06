@@ -3,33 +3,29 @@ import axios from "axios"
 import { baseURL } from '../util';
 
 const ChatBody = ({ openChat, user, messages }) => {
-    // console.log(openChat)
-    
-  // let {chatId, chatType, title, members } = openChat;
     const [members, setMembers] = useState({});
-
     useEffect(() => {
-      const getMembers =  () =>{
-        // console.log('function ')
-         openChat.members.forEach(async (memberId) => {
-            console.log('members')
-            await axios.get(`${baseURL}/users/${memberId}`).then((res) => {
-                console.log(res.data.user);
-                // setMembers((prev) => {...prev, res.data.user})
-                setMembers((prev) => ({
-                    ...prev,
-                    [res.data.user._id]: res.data.user.username,
-                }));
+        const getMembers = () => {
+            openChat.members.forEach(async (memberId) => {
+                console.log('members')
+                await axios.get(`${baseURL}/users/${memberId}`).then((res) => {
+                    console.log(res.data)
+                    if (res.data.user) {
+                        setMembers((prev) => ({
+                            ...prev,
+                            [res.data.user._id]: res.data.user.username,
+                        }));
+                    }
+                })
             })
-        })
-      }
-      getMembers()
-    //   console.log(members)
+
+            console.log(members)
+        }
+        getMembers()
+        
     }, [openChat])
-    
 
     return (
-   
         <div className='chat-body'>
             <div className="messages">
                 {messages.length ?
@@ -40,13 +36,10 @@ const ChatBody = ({ openChat, user, messages }) => {
                                 <span>{members[msg.sender]}</span>
                             </div>
                         )
-                    })
-                
-                     : <h2>Type to start chatting!</h2> 
+                    }) : <h2>Type to start chatting!</h2>
                 }
             </div>
         </div>
     )
 }
-
 export default ChatBody

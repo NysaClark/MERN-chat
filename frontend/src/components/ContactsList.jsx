@@ -24,8 +24,8 @@ const ContactsList = ({ user, setOpenChat }) => {
   const fetchRooms = async () => {
     // /:userId/chat/:chatType
     axios.get(`${baseURL}/users/${user._id}/chat/room`, { withCredentials: true }).then((res) => {
-    console.log(res.data)  
-    if (res.data.chats) {
+      console.log(res.data)
+      if (res.data.chats) {
         setRoomsList(res.data.chats)
       }
     }).catch((err) => {
@@ -33,29 +33,29 @@ const ContactsList = ({ user, setOpenChat }) => {
     })
   }
 
-  const handleOpenChat = async ( chatType, contact, room ) => {
+  const handleOpenChat = async (chatType, contact, room) => {
     if (chatType == "private") {
 
       //check if there's already a chat in DB
       await axios.get(`${baseURL}/users/chat/${user._id}/${contact._id}`).then(async (res) => {
 
         if (res.data.chat) { //if there's a chat in DB
-        
+
           setOpenChat({ chatId: res.data.chat._id, chatType: res.data.chat.type, members: res.data.chat.members, title: contact.username })
         } else { // need to create one
-          
+
           await axios.post(`${baseURL}/users/${user._id}/chat`, {
             type: chatType,
             members: [contact._id]
           }).then((res) => {
-            
+
             setOpenChat({ chatId: res.data.chat._id, chatType: res.data.chat.type, members: res.data.chat.members, title: contact.username })
           })
         }
       })
     } else if (chatType == "room") {
       await axios.get(`${baseURL}/users/chat/${room._id}`).then((res) => {
-       
+
         setOpenChat({ chatId: res.data.chat._id, chatType: res.data.chat.type, members: res.data.chat.members, title: res.data.chat.name })
       })
     }
@@ -97,7 +97,7 @@ const ContactsList = ({ user, setOpenChat }) => {
           return (
             <li onClick={() => handleOpenChat("room", null, room)} key={room._id}><p>{room.name}</p><p>{room.members.length} users</p></li>
           )
-        }) : <p>You aren't in any rooms!</p>}
+        }) : <p>You aren't in any rooms :/</p>}
       </ul>
     </div>
   )

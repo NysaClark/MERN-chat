@@ -3,14 +3,10 @@ import React, { useEffect, useRef, useState } from 'react'
 import ChatFooter from './ChatFooter'
 import ChatBody from './ChatBody'
 
-
 import { io } from "socket.io-client"
 import { baseURL } from '../util'
 
-
-
 const OpenChat = ({ openChat, user }) => {
-  // let {chatId, chatType, title, members } = openChat;
   const [messages, setMessages] = useState([])
 
   const socket = useRef();
@@ -26,8 +22,6 @@ const OpenChat = ({ openChat, user }) => {
 
   useEffect(() => {
     socket.current.emit("addUser", user._id);
-
-    // socket.current.on("getUsers", () =>{})
   }, [user])
 
   useEffect(() => {

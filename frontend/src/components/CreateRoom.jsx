@@ -15,6 +15,10 @@ const CreateRoom = ({ user, err, setErr, selectedUsers }) => {
 			return setErr("You must give a room name")
 		}
 
+		if (selectedUsers.length < 2) {
+			return setErr("You must select more than one contact")
+		}
+
 		setErr();
 
 		axios.post(`${baseURL}/users/${user._id}/chat`, {
