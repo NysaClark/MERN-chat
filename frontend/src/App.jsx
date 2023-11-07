@@ -38,10 +38,11 @@ function App() {
     <BrowserRouter>
       <div>
         <Routes>
-          <Route path="/chats" element={user ? <Chats user={user} logout={logout} /> : <Navigate to="/" replace={true} />}></Route>
-          <Route path="/create-room" element={user ? <Rooms user={user} logout={logout} /> : <Navigate to="/" replace={true} />}></Route>
-          <Route path="/" element={user ? <Navigate to="/chats" replace={true} /> : <Login setUser={setUser} />}></Route>
-          <Route path="/signup" element={user ? <Navigate to="/chats" replace={true} /> : <SignUp setUser={setUser} />}></Route>
+          <Route path="/chats" element={user ? <Chats user={user} logout={logout} /> : <Navigate to="/" replace={true} />} />
+          <Route path="/create-room" element={user ? <Rooms user={user} logout={logout} /> : <Navigate to="/" replace={true} />} />
+          <Route path="/" element={user ? <Navigate to="/chats" replace={true} /> : <Login setUser={setUser} />} />
+          <Route path="/signup" element={user ? <Navigate to="/chats" replace={true} /> : <SignUp setUser={setUser} />} />
+          <Route path="*" element={user ? <Chats user={user} logout={logout} /> : <Navigate to="/" replace={true} />} />
         </Routes>
       </div>
     </BrowserRouter>
