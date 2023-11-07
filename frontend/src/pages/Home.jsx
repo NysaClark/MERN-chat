@@ -4,7 +4,7 @@ import Header from '../components/Header'
 import ContactsList from '../components/ContactsList'
 import OpenChat from '../components/OpenChat'
 
-const Home = ({ user, logout }) => {
+const Chats = ({ user, logout }) => {
   const [openChat, setOpenChat] = useState();
 
   return (
@@ -25,4 +25,4 @@ const Home = ({ user, logout }) => {
   )
 }
 
-export default Home
+export default Chats

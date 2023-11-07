@@ -4,7 +4,7 @@ import { useCookies } from "react-cookie";
 import axios from "axios";
 import { baseURL } from "./util";
 
-import Home from "./pages/Home"
+import Chats from "./pages/Chats"
 import Login from "./pages/Login"
 import Rooms from "./pages/Rooms"
 import SignUp from "./pages/SignUp"
@@ -38,11 +38,10 @@ function App() {
     <BrowserRouter>
       <div>
         <Routes>
-          <Route path="/" element={user ? <Home user={user} logout={logout} /> : <Navigate to="/login" replace={true} />}></Route>
-          <Route path="/create-room" element={user ? <Rooms user={user} logout={logout} /> : <Navigate to="/login" replace={true} />}></Route>
-          {user ? <Route path="/login" element={<Navigate to="/" replace={true} />}></Route> : <Route path="/login" element={<Login setUser={setUser} />}></Route>}
-          <Route path="/signup" element={user ? <Navigate to="/" replace={true} /> : <SignUp setUser={setUser} />}></Route>
-          <Route path='*' element={<Navigate to='/login' />} />
+          <Route path="/chats" element={user ? <Chats user={user} logout={logout} /> : <Navigate to="/" replace={true} />}></Route>
+          <Route path="/create-room" element={user ? <Rooms user={user} logout={logout} /> : <Navigate to="/" replace={true} />}></Route>
+          <Route path="/" element={user ? <Navigate to="/chats" replace={true} /> : <Login setUser={setUser} />}></Route>
+          <Route path="/signup" element={user ? <Navigate to="/chats" replace={true} /> : <SignUp setUser={setUser} />}></Route>
         </Routes>
       </div>
     </BrowserRouter>

@@ -27,7 +27,7 @@ const CreateRoom = ({ user, err, setErr, selectedUsers }) => {
 			type: "room"
 		}, { withCredentials: true }).then(res => {
 			if (res.data.chat) {
-				navigate("/")
+				navigate("/chats")
 			}
 		})
 
