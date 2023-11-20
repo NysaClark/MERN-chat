@@ -37,7 +37,7 @@ const ChatFooter = ({ openChat, socket, user, setMessages }) => {
           value={message}
           onChange={e => setMessage(e.target.value)}
         />
-        <button className="sendBtn"><i className="bi bi-send-fill"></i></button>
+        <button disabled={message.length > 280 ? true: false} className="sendBtn"><i className="bi bi-send-fill"></i></button>
       </form>
     </div>
   )

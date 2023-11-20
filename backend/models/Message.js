@@ -6,6 +6,7 @@ const messageSchema = new Schema(
     message: {
       type: String,
       required: true,
+      maxLength: 280,
     },
     sender: {
       type: mongoose.Schema.Types.ObjectId,
