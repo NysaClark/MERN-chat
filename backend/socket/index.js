@@ -22,7 +22,7 @@ const initSocket = (server, corsOptions) => {
       addUser(userId, socket.id);
     });
 
-    socket.on("sendMessage", ({ sender, receivers, message }) => {
+    socket.on("sendMessage", ({ sender, receivers, message, chatId }) => {
       receivers.forEach((receiverId) => {
         let user = getUser(receiverId);
 
@@ -31,6 +31,7 @@ const initSocket = (server, corsOptions) => {
           io.to(user.socketId).emit("getNewMessage", {
             sender,
             message,
+            chatId
           });
         }
       });

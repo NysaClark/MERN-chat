@@ -7,6 +7,7 @@ import { io } from "socket.io-client"
 import { baseURL } from '../util'
 
 const OpenChat = ({ openChat, user }) => {
+  // console.log(openChat)
   const [messages, setMessages] = useState([])
 
   const socket = useRef();
@@ -15,7 +16,9 @@ const OpenChat = ({ openChat, user }) => {
     socket.current = io(`${baseURL}/`);
 
     socket.current.on("getNewMessage", (newMessage) => {
-      setMessages((prev) => [...prev, newMessage]);
+      if (newMessage.chatId == openChat.chatId) {
+        setMessages((prev) => [...prev, newMessage]);
+      }
     })
 
   }, [])
