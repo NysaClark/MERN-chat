@@ -5,11 +5,13 @@ import { baseURL } from '../util';
 const ChatBody = ({ openChat, user, messages }) => {
     const [members, setMembers] = useState({});
     useEffect(() => {
+        // console.log("getMembers")
         const getMembers = () => {
+            setMembers();
+
             openChat.members.forEach(async (memberId) => {
-                console.log('members')
                 await axios.get(`${baseURL}/users/${memberId}`).then((res) => {
-                    console.log(res.data)
+                    
                     if (res.data.user) {
                         setMembers((prev) => ({
                             ...prev,
@@ -17,11 +19,11 @@ const ChatBody = ({ openChat, user, messages }) => {
                         }));
                     }
                 })
-            })
+            }) 
 
             console.log(members)
         }
-        getMembers()
+        getMembers()       
         
     }, [openChat])
 

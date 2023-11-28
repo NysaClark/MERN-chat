@@ -7,7 +7,6 @@ import { io } from "socket.io-client"
 import { baseURL } from '../util'
 
 const OpenChat = ({ openChat, user }) => {
-  // console.log(openChat)
   const [messages, setMessages] = useState([])
 
   const socket = useRef();
@@ -31,7 +30,7 @@ const OpenChat = ({ openChat, user }) => {
     setMessages([])
     const getMessages = async () => {
       await axios.get(`${baseURL}/users/messages/${openChat.chatId}`).then((res) => {
-        console.log(res.data.messages)
+        // console.log(res.data.messages)
         if (res.data.messages.length) setMessages(res.data.messages);
 
       }).catch(err => {

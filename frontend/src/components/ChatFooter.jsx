@@ -14,6 +14,9 @@ const ChatFooter = ({ openChat, socket, user, setMessages }) => {
     }
     let receivers = openChat.members.filter((memberId) => memberId !== user._id);
     // send new message to any other members of the chat that are online
+
+    
+
     socket.current.emit("sendMessage", {
       sender: user._id,
       receivers,
@@ -22,7 +25,7 @@ const ChatFooter = ({ openChat, socket, user, setMessages }) => {
     })
     // add message to DB
     await axios.post(`${baseURL}/users/message`, newMessage).then((res) => {
-      console.log(res.data.message);
+      // console.log(res.data.message);
       setMessages((prev) => [...prev, res.data.message]);
     }).catch(err => console.log(err))
     setMessage("");

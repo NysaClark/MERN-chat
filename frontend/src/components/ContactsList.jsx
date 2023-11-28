@@ -24,7 +24,7 @@ const ContactsList = ({ user, setOpenChat }) => {
   const fetchRooms = async () => {
     // /:userId/chat/:chatType
     axios.get(`${baseURL}/users/${user._id}/chat/room`, { withCredentials: true }).then((res) => {
-      console.log(res.data)
+      // console.log(res.data)
       if (res.data.chats) {
         setRoomsList(res.data.chats)
       }
@@ -93,11 +93,14 @@ const ContactsList = ({ user, setOpenChat }) => {
         }
       </button>
       <ul className="rooms">
-        {showRooms && roomsList.length ? roomsList.map((room) => {
+        {showRooms && roomsList.length && roomsList.map((room) => {
           return (
             <li onClick={() => handleOpenChat("room", null, room)} key={room._id}><p>{room.name}</p><p>{room.members.length} users</p></li>
           )
-        }) : <p>You aren't in any rooms :/</p>}
+        })}
+
+        {showRooms && !roomsList.length && <p>You aren't in any rooms :/</p>}
+
       </ul>
     </div>
   )
