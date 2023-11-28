@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import {baseURL} from "../util"
+import { baseURL } from "../util"
 
 const ChatFooter = ({ openChat, socket, user, setMessages }) => {
   const [message, setMessage] = useState("")
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
+    if (message.trim() === "") {
+      return;
+    }
     const newMessage = {
       sender: user._id,
       message,
@@ -15,7 +18,7 @@ const ChatFooter = ({ openChat, socket, user, setMessages }) => {
     let receivers = openChat.members.filter((memberId) => memberId !== user._id);
     // send new message to any other members of the chat that are online
 
-    
+
 
     socket.current.emit("sendMessage", {
       sender: user._id,
@@ -41,7 +44,7 @@ const ChatFooter = ({ openChat, socket, user, setMessages }) => {
           value={message}
           onChange={e => setMessage(e.target.value)}
         />
-        <button disabled={message.length > 280 ? true: false} className="sendBtn"><i className="bi bi-send-fill"></i></button>
+        <button disabled={message.length > 280 ? true : false} className="sendBtn"><i className="bi bi-send-fill"></i></button>
       </form>
     </div>
   )

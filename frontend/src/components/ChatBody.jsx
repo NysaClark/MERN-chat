@@ -21,7 +21,7 @@ const ChatBody = ({ openChat, user, messages }) => {
                 })
             }) 
 
-            console.log(members)
+            // console.log(members)
         }
         getMembers()       
         

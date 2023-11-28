@@ -15,12 +15,16 @@ const OpenChat = ({ openChat, user }) => {
     socket.current = io(`${baseURL}/`);
 
     socket.current.on("getNewMessage", (newMessage) => {
+      console.log(openChat)
+      console.log(newMessage)
+      
       if (newMessage.chatId == openChat.chatId) {
         setMessages((prev) => [...prev, newMessage]);
       }
     })
 
-  }, [])
+  }, [openChat])
+
 
   useEffect(() => {
     socket.current.emit("addUser", user._id);
@@ -29,6 +33,7 @@ const OpenChat = ({ openChat, user }) => {
   useEffect(() => {
     setMessages([])
     const getMessages = async () => {
+      console.log(openChat.chatId)
       await axios.get(`${baseURL}/users/messages/${openChat.chatId}`).then((res) => {
         // console.log(res.data.messages)
         if (res.data.messages.length) setMessages(res.data.messages);

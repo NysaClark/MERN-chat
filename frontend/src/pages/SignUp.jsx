@@ -23,10 +23,13 @@ const SignUp = ({ setUser }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErr();
+
+    if (userForm.username.trim() == "" || userForm.password.trim() == "") {
+      return setErr("All inputs are required.");
+    }
     
     if (userForm.password !== userForm.confirmPass) {
       return setErr("Passwords do not match");
-
     }
 
     await axios.post(`${baseURL}/auth/register`, {
