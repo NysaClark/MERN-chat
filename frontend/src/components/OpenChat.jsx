@@ -11,37 +11,34 @@ const OpenChat = ({ openChat, user }) => {
 
   const socket = useRef();
 
-  useEffect(() => {
-    socket.current = io(`${baseURL}/`);
+  const getMessages = async () => {
+    setMessages([])
+    console.log(openChat.chatId)
+    await axios.get(`${baseURL}/users/messages/${openChat.chatId}`).then((res) => {
+      if (res.data.messages.length) setMessages(res.data.messages);
 
-    socket.current.on("getNewMessage", (newMessage) => {
-      console.log("Chat To: " + newMessage.chatTo);
-      console.log("Open Chat: " + openChat.chatId);
-      // if (socket.current.id == newMessage.socketId) {
-        setMessages((prev) => [...prev, newMessage]);
-      // }
+    }).catch(err => {
+      console.log(err)
     })
-
-  }, [openChat])
-
+  }
 
   useEffect(() => {
     socket.current.emit("addUser", user._id);
   }, [user])
 
   useEffect(() => {
-    setMessages([])
-    const getMessages = async () => {
-      console.log(openChat.chatId)
-      await axios.get(`${baseURL}/users/messages/${openChat.chatId}`).then((res) => {
-        // console.log(res.data.messages)
-        if (res.data.messages.length) setMessages(res.data.messages);
 
-      }).catch(err => {
-        console.log(err)
-      })
-    }
     getMessages();
+
+    socket.current = io(`${baseURL}/`);
+
+    socket.current.on("getNewMessage", (newMessage) => {
+      console.log("Chat To: " + newMessage.chatTo);
+      console.log("Open Chat: " + openChat.chatId);
+      if (socket.current.id == newMessage.socketId) {
+      setMessages((prev) => [...prev, newMessage]);
+      }
+    })
 
   }, [openChat])
 
