@@ -24,8 +24,9 @@ const ChatFooter = ({ openChat, socket, user, setMessages }) => {
       sender: user._id,
       receivers,
       message,
-      chatId: openChat.chatId
+      socketId: socket.current.id
     })
+
     // add message to DB
     await axios.post(`${baseURL}/users/message`, newMessage).then((res) => {
       // console.log(res.data.message);

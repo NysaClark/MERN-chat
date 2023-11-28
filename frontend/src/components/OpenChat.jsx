@@ -15,10 +15,10 @@ const OpenChat = ({ openChat, user }) => {
     socket.current = io(`${baseURL}/`);
 
     socket.current.on("getNewMessage", (newMessage) => {
-      console.log(openChat)
-      console.log(newMessage)
+      console.log(socket.current.id)
+      console.log(newMessage.socketId)
       
-      if (newMessage.chatId == openChat.chatId) {
+      if (socket.current.id == newMessage.socketId) {
         setMessages((prev) => [...prev, newMessage]);
       }
     })
