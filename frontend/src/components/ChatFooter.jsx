@@ -18,13 +18,14 @@ const ChatFooter = ({ openChat, socket, user, setMessages }) => {
     let receivers = openChat.members.filter((memberId) => memberId !== user._id);
     // send new message to any other members of the chat that are online
 
-
+    console.log("Sending...")
+    console.log("Open Chat: " + openChat.chatId);
 
     socket.current.emit("sendMessage", {
       sender: user._id,
       receivers,
       message,
-      socketId: socket.current.id
+      chatTo: openChat.chatId
     })
 
     // add message to DB
