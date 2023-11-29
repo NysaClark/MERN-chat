@@ -17,27 +17,29 @@ const OpenChat = ({ openChat, user }) => {
     await axios.get(`${baseURL}/users/messages/${openChat.chatId}`).then((res) => {
       if (res.data.messages.length) setMessages(res.data.messages);
 
+      return openChat.chatId;
+
     }).catch(err => {
       console.log(err)
     })
   }
 
-  const getNewMessage = async (newMessage) => {
+  const getNewMessage = async (newMessage, chatId) => {
     console.log("Chat To: " + newMessage.chatTo);
-    console.log("Open Chat: " + openChat.chatId);
-    if (openChat.chatId == newMessage.chatTo) {
+    console.log("Open Chat: " + chatId);
+    if (chatId == newMessage.chatTo) {
       setMessages((prev) => [...prev, newMessage]);
     }
   }
 
-  useEffect(() => {
+  useEffect(async () => {
 
-    getMessages();
+    let chatId = await getMessages();
 
     socket.current = io(`${baseURL}/`);
 
     socket.current.on("getNewMessage", (newMessage) => {
-      getNewMessage(newMessage);
+      getNewMessage(newMessage, chatId);
     })
 
   }, [openChat])
