@@ -23,10 +23,6 @@ const OpenChat = ({ openChat, user }) => {
   }
 
   useEffect(() => {
-    socket.current.emit("addUser", user._id);
-  }, [user])
-
-  useEffect(() => {
 
     getMessages();
 
@@ -41,6 +37,10 @@ const OpenChat = ({ openChat, user }) => {
     })
 
   }, [openChat])
+
+  useEffect(() => {
+    socket.current.emit("addUser", user._id);
+  }, [user])
 
   return (
     <div id='openChat'>
