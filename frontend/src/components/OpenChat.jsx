@@ -37,7 +37,7 @@ const OpenChat = ({ openChat, user }) => {
     socket.current = io(`${baseURL}/`);
 
     socket.current.on("getNewMessage", (newMessage) => {
-      getNewMessage();
+      getNewMessage(newMessage);
     })
 
   }, [openChat])
