@@ -22,6 +22,14 @@ const OpenChat = ({ openChat, user }) => {
     })
   }
 
+  const getNewMessage = async (newMessage) => {
+    console.log("Chat To: " + newMessage.chatTo);
+    console.log("Open Chat: " + openChat.chatId);
+    if (openChat.chatId == newMessage.chatTo) {
+      setMessages((prev) => [...prev, newMessage]);
+    }
+  }
+
   useEffect(() => {
 
     getMessages();
@@ -29,11 +37,7 @@ const OpenChat = ({ openChat, user }) => {
     socket.current = io(`${baseURL}/`);
 
     socket.current.on("getNewMessage", (newMessage) => {
-      console.log("Chat To: " + newMessage.chatTo);
-      console.log("Open Chat: " + openChat.chatId);
-      if (socket.current.id == newMessage.socketId) {
-      setMessages((prev) => [...prev, newMessage]);
-      }
+      getNewMessage();
     })
 
   }, [openChat])
